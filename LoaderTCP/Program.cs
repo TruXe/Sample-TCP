@@ -3,6 +3,8 @@ using System.Net.Sockets;
 using System.IO;
 using System.Text;
 using System.Threading;
+using Server.Utils;
+using System.Windows.Forms;
 
 
 namespace LoaderTCP
@@ -11,25 +13,37 @@ namespace LoaderTCP
     {
         static void Main(string[] args)
         {
-            TcpClient client = new TcpClient("127.0.0.1", 8888);
+            TcpClient client = new TcpClient();
+
+            //TcpClient client = new TcpClient("127.0.0.1", 8888);
+            try
+            {
+                client.Connect("127.0.0.1", 8888);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Environment.Exit(0);
+            }
 
             using (NetworkStream stream = client.GetStream())
             using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
             using (StreamWriter writer = new StreamWriter(stream, Encoding.UTF8))
             {
                 writer.AutoFlush = true; // Enable automatic flushing
-                Console.Write("\n");
-                Console.WriteLine(" [*] TCP Client by ( Discord:kexo0001 ) [*] ");
-                Console.Write("\n");
-                Console.Write(" [*] Enter your username: ");
+                Helpers.Blank();
+                Helpers.WriteLine("TCP Client by ( Discord:kexo0001 )", 2);
+                Helpers.Blank();
+
+                Helpers.WriteReadLine("Enter your username: ", 2);
                 string username = Console.ReadLine();
                 writer.WriteLine(username);
 
-                Console.Write(" [*] Enter your password: ");
+                Helpers.WriteReadLine("Enter your password: ", 2);
                 string password = Console.ReadLine();
                 writer.WriteLine(password);
 
-                Console.Write(" [*] Enter your HWID: ");
+                Helpers.WriteReadLine("Enter your HWID: ", 2);
                 string hwid = Console.ReadLine();
                 writer.WriteLine(hwid);
 
@@ -43,29 +57,26 @@ namespace LoaderTCP
                 if(serverResponse == "ALLOWED")
                 {
                     string choice = null;
-                    Console.WriteLine($" Welcome, dear {username}");
-
-                    Console.Write("\n");
+                    Helpers.Welcome($"{username}");
+                    Helpers.Blank();
 
                     Console.WriteLine(" Your choice:\n [1] Inject 1\n [2] Inject 2\n [3] Exit");
 
-                    Console.Write("\n");
+                    Helpers.Blank();
 
                     Console.Write(" Choice: "); choice = Console.ReadLine();
                     if(choice == "1")
                     {
-                        Console.WriteLine($" [TEST] choice: {choice}");
-                        Console.WriteLine($" [+] Injecting 1..");
+
+                        Helpers.WriteLine($"Injecting 1..", 1);
                     }
                     else if(choice == "2")
                     {
-                        Console.WriteLine($" [TEST] choice: {choice}");
-                        Console.WriteLine($" [+] Injecting 2..");
+                        Helpers.WriteLine($"Injecting 2..", 1);
                     }
                     else if (choice == "3")
                     {
-                        Console.WriteLine($" [TEST] choice: {choice}");
-                        Console.WriteLine($" [-] Closing application in 3 sec.");
+                        Helpers.WriteLine($"Closing application in 3 sec.", 0);
                         Thread.Sleep(3000);
 
                         Environment.Exit(0);

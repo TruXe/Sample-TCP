@@ -80,7 +80,7 @@ namespace Server
             }
 
             client.Close();
-            Helpers.WriteLine("[-] Client disconnected", 0);
+            Helpers.WriteLine("Client disconnected\n", 0);
         }
     }
 }
