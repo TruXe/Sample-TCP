@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.IO;
+using Server.Utils;
 
 namespace Server
 {
@@ -15,16 +16,16 @@ namespace Server
             TcpListener server = new TcpListener(IPAddress.Any, 8888);
             server.Start();
 
-            Console.Write("\n");
-            Console.WriteLine(" [*] TCP Client by ( Discord:kexo0001 ) [*] ");
-            Console.Write("\n");
+            Helpers.Blank();
+            Helpers.WriteLine("TCP Client by ( Discord:kexo0001 )", 2);
+            Helpers.Blank();
 
-            Console.WriteLine(" [+] Server is listening...");
+            Helpers.WriteLine("Server is listening...", 1);
 
             while (true)
             {
                 TcpClient client = server.AcceptTcpClient();
-                Console.WriteLine(" [+] Client connected");
+                Helpers.WriteLine("Client connected", 1);
 
                 HandleClient(client);
             }
@@ -38,13 +39,13 @@ namespace Server
             {
                 writer.AutoFlush = true; // Enable automatic flushing
 
-                Console.WriteLine(" [+] Waiting for client data...");
+                Helpers.WriteLine("Waiting for client data...", 1);
 
                 string username = reader.ReadLine();
                 string password = reader.ReadLine();
                 string hwid = reader.ReadLine();
 
-                Console.WriteLine($" [+] Received data - Username: {username}, Password: {password}, HWID: {hwid}");
+                Helpers.WriteLine($"Received data - Username: {username}, Password: {password}, HWID: {hwid}", 1);
                 authenticationResult = false;
                 //HERE YOU CAN IMPLEMENT API.
                 //FOR TESTING
@@ -74,12 +75,12 @@ namespace Server
                 //Send Allowed or Denied
                 string response = authenticationResult ? "ALLOWED" : "DENIED";
 
-                Console.WriteLine($" [+] Sending response to client: {response}");
+                Helpers.WriteLine($"Sending response to client: {response}", 1);
                 writer.WriteLine(response);
             }
 
             client.Close();
-            Console.WriteLine(" [-] Client disconnected");
+            Helpers.WriteLine("[-] Client disconnected", 0);
         }
     }
 }
