@@ -43,7 +43,7 @@ namespace LoaderTCP
                 string password = Console.ReadLine();
                 writer.WriteLine(password);
 
-                Helpers.WriteReadLine("Enter your HWID: ", 2);
+                Helpers.WriteReadLine("Enter your HWID: ", 3);
                 string hwid = Console.ReadLine();
                 writer.WriteLine(hwid);
 
